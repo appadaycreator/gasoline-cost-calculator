@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ガソリン代計算ツール【無料】給油費用・燃費を瞬時に計算</title>
+  <meta name="description" content="ガソリン代計算ツール。燃費・走行距離・ガソリン単価から給油費用を瞬時に計算。月間・年間の燃料費シミュレーションも対応。無料でかんたん計算。">
+  <link rel="canonical" href="https://appadaycreator.github.io/gasoline-cost-calculator/">
+  <meta property="og:title" content="ガソリン代計算ツール【無料】給油費用・燃費を瞬時に計算">
+  <meta property="og:description" content="燃費・走行距離・ガソリン単価から給油費用を瞬時に計算。月間・年間の燃料費シミュレーションも対応。">
+  <meta property="og:url" content="https://appadaycreator.github.io/gasoline-cost-calculator/">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛽</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+JP:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TXQGZRF9');</script>
+  <!-- End Google Tag Manager -->
+  <!-- Microsoft Clarity -->
+  <script type="text/javascript">(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","s3t9vl8h3v");</script>
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8427583028015858" crossorigin="anonymous"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans JP', 'Inter', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      min-height: 100vh;
+      color: #e0e0e0;
+    }
+    header {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      padding: 1rem 1.5rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    header h1 { font-size: 1.6rem; color: #fff; font-weight: 700; }
+    header p { font-size: 0.9rem; color: #a0c4ff; margin-top: 0.3rem; }
+    main { max-width: 900px; margin: 0 auto; padding: 1.5rem; }
+    .card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .card h2 { font-size: 1.15rem; color: #fff; margin-bottom: 1rem; font-weight: 700; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group label { font-size: 0.85rem; color: #a0c4ff; font-weight: 600; }
+    .form-group input, .form-group select {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+      padding: 0.65rem 0.9rem;
+      color: #fff;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: #4fc3f7;
+    }
+    .form-group select option { background: #1a1a2e; }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 0.85rem;
+      background: linear-gradient(90deg, #00b4d8, #0096c7);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 1rem;
+      font-family: inherit;
+      transition: opacity 0.2s;
+    }
+    .btn:hover { opacity: 0.9; }
+    .result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 1rem; }
+    .result-item {
+      background: rgba(0,180,216,0.1);
+      border: 1px solid rgba(0,180,216,0.3);
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .result-item .label { font-size: 0.8rem; color: #a0c4ff; }
+    .result-item .value { font-size: 1.6rem; font-weight: 700; color: #4fc3f7; margin-top: 0.3rem; }
+    .result-item .unit { font-size: 0.8rem; color: #a0c4ff; }
+    .history-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    .history-table th, .history-table td { padding: 0.6rem 0.8rem; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.9rem; }
+    .history-table th { color: #a0c4ff; font-weight: 600; }
+    .history-table td { color: #e0e0e0; }
+    .history-table tr:hover td { background: rgba(255,255,255,0.04); }
+    .tips-list { list-style: none; padding: 0; }
+    .tips-list li { padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.9rem; color: #ccc; }
+    .tips-list li::before { content: "💡 "; }
+    .chart-bar-container { margin-top: 1rem; }
+    .chart-bar-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.7rem; }
+    .chart-bar-label { width: 80px; font-size: 0.82rem; color: #a0c4ff; text-align: right; }
+    .chart-bar-bg { flex: 1; background: rgba(255,255,255,0.07); border-radius: 6px; height: 22px; overflow: hidden; }
+    .chart-bar-fill { height: 100%; background: linear-gradient(90deg, #00b4d8, #0096c7); border-radius: 6px; transition: width 0.5s ease; }
+    .chart-bar-val { width: 80px; font-size: 0.82rem; color: #4fc3f7; font-weight: 600; }
+    .badge { display: inline-block; background: rgba(0,180,216,0.2); border: 1px solid rgba(0,180,216,0.4); color: #4fc3f7; font-size: 0.75rem; font-weight: 600; border-radius: 20px; padding: 0.2rem 0.7rem; margin-left: 0.5rem; }
+    footer { background: rgba(0,0,0,0.3); text-align: center; padding: 2rem 1rem; margin-top: 2rem; color: #888; font-size: 0.85rem; }
+    footer a { color: #4fc3f7; text-decoration: none; }
+    footer .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-bottom: 1rem; }
+    .hidden { display: none; }
+    .alert { background: rgba(255,200,0,0.1); border: 1px solid rgba(255,200,0,0.3); border-radius: 8px; padding: 0.8rem; color: #ffd700; font-size: 0.88rem; margin-top: 0.8rem; }
+    .gas-price-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+    .gas-price-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #ccc; font-size: 0.82rem; padding: 0.3rem 0.8rem; border-radius: 20px; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+    .gas-price-btn:hover, .gas-price-btn.active { background: rgba(0,180,216,0.2); border-color: #4fc3f7; color: #4fc3f7; }
+  </style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TXQGZRF9" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<header>
+  <h1>⛽ ガソリン代計算ツール</h1>
+  <p>燃費・走行距離・ガソリン単価から給油費用をかんたん計算</p>
+</header>
+
+<main>
+  <!-- 基本計算 -->
+  <section class="card">
+    <h2>🔢 基本計算</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>走行距離 (km)</label>
+        <input type="number" id="distance" value="100" min="1" step="1" placeholder="例: 100">
+      </div>
+      <div class="form-group">
+        <label>燃費 (km/L)</label>
+        <input type="number" id="fuelEfficiency" value="15" min="1" step="0.1" placeholder="例: 15">
+      </div>
+      <div class="form-group">
+        <label>ガソリン単価 (円/L)</label>
+        <input type="number" id="gasolinePrice" value="175" min="1" step="1" placeholder="例: 175">
+        <div class="gas-price-list" id="presetPrices">
+          <button class="gas-price-btn" onclick="setPrice(155)">レギュラー安値 ¥155</button>
+          <button class="gas-price-btn active" onclick="setPrice(175)">レギュラー平均 ¥175</button>
+          <button class="gas-price-btn" onclick="setPrice(190)">ハイオク ¥190</button>
+          <button class="gas-price-btn" onclick="setPrice(145)">軽油 ¥145</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>燃料種別</label>
+        <select id="fuelType">
+          <option value="regular">レギュラー</option>
+          <option value="highoctane">ハイオク</option>
+          <option value="diesel">軽油</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn" onclick="calculate()">ガソリン代を計算する</button>
+    <div id="basicResult" class="hidden">
+      <div class="result-grid">
+        <div class="result-item">
+          <div class="label">必要ガソリン量</div>
+          <div class="value" id="literResult">-</div>
+          <div class="unit">リットル</div>
+        </div>
+        <div class="result-item">
+          <div class="label">ガソリン代</div>
+          <div class="value" id="costResult">-</div>
+          <div class="unit">円</div>
+        </div>
+        <div class="result-item">
+          <div class="label">1kmあたりコスト</div>
+          <div class="value" id="perKmResult">-</div>
+          <div class="unit">円/km</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 月間・年間シミュレーション -->
+  <section class="card">
+    <h2>📅 月間・年間シミュレーション</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>月間走行距離 (km)</label>
+        <input type="number" id="monthlyDistance" value="1000" min="1" step="10" placeholder="例: 1000">
+      </div>
+      <div class="form-group">
+        <label>計算対象</label>
+        <select id="simType">
+          <option value="both">月間・年間両方</option>
+          <option value="monthly">月間のみ</option>
+          <option value="yearly">年間のみ</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn" onclick="simulate()">シミュレーション実行</button>
+    <div id="simResult" class="hidden">
+      <div class="result-grid">
+        <div class="result-item">
+          <div class="label">月間ガソリン代</div>
+          <div class="value" id="monthlyResult">-</div>
+          <div class="unit">円/月</div>
+        </div>
+        <div class="result-item">
+          <div class="label">年間ガソリン代</div>
+          <div class="value" id="yearlyResult">-</div>
+          <div class="unit">円/年</div>
+        </div>
+        <div class="result-item">
+          <div class="label">月間給油量</div>
+          <div class="value" id="monthlyLiter">-</div>
+          <div class="unit">L/月</div>
+        </div>
+        <div class="result-item">
+          <div class="label">年間給油量</div>
+          <div class="value" id="yearlyLiter">-</div>
+          <div class="unit">L/年</div>
+        </div>
+      </div>
+      <div class="chart-bar-container" id="monthlyChart"></div>
+    </div>
+  </section>
+
+  <!-- 燃費比較 -->
+  <section class="card">
+    <h2>🚗 車種別燃費比較 <span class="badge">実際の数値で比較</span></h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>年間走行距離 (km)</label>
+        <input type="number" id="compareDistance" value="12000" min="1" step="100">
+      </div>
+      <div class="form-group">
+        <label>ガソリン単価 (円/L)</label>
+        <input type="number" id="comparePrice" value="175" min="1" step="1">
+      </div>
+    </div>
+    <button class="btn" onclick="compareVehicles()">車種別コストを比較</button>
+    <div id="compareResult" class="hidden chart-bar-container"></div>
+  </section>
+
+  <!-- 節約シミュレーション -->
+  <section class="card">
+    <h2>💰 節約シミュレーション</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>現在の燃費 (km/L)</label>
+        <input type="number" id="currentEfficiency" value="12" min="1" step="0.1">
+      </div>
+      <div class="form-group">
+        <label>目標燃費 (km/L)</label>
+        <input type="number" id="targetEfficiency" value="18" min="1" step="0.1">
+      </div>
+      <div class="form-group">
+        <label>月間走行距離 (km)</label>
+        <input type="number" id="savingDistance" value="1000" min="1" step="10">
+      </div>
+      <div class="form-group">
+        <label>ガソリン単価 (円/L)</label>
+        <input type="number" id="savingPrice" value="175" min="1" step="1">
+      </div>
+    </div>
+    <button class="btn" onclick="calcSaving()">節約額を計算</button>
+    <div id="savingResult" class="hidden">
+      <div class="result-grid">
+        <div class="result-item">
+          <div class="label">月間節約額</div>
+          <div class="value" id="monthlySaving">-</div>
+          <div class="unit">円/月</div>
+        </div>
+        <div class="result-item">
+          <div class="label">年間節約額</div>
+          <div class="value" id="yearlySaving">-</div>
+          <div class="unit">円/年</div>
+        </div>
+        <div class="result-item">
+          <div class="label">10年間節約額</div>
+          <div class="value" id="decadeSaving">-</div>
+          <div class="unit">円/10年</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 計算履歴 -->
+  <section class="card">
+    <h2>📋 計算履歴</h2>
+    <div id="historyContainer">
+      <p style="color:#888;font-size:0.9rem;">計算を実行すると履歴がここに表示されます</p>
+    </div>
+    <button class="btn" onclick="clearHistory()" style="background:rgba(255,100,100,0.3);margin-top:0.8rem;">履歴をクリア</button>
+  </section>
+
+  <!-- 節約Tips -->
+  <section class="card">
+    <h2>💡 燃費改善・節約のコツ</h2>
+    <ul class="tips-list">
+      <li>急発進・急ブレーキを避ける（燃費を最大20%改善）</li>
+      <li>タイヤの空気圧を適正に保つ（月1回チェック推奨）</li>
+      <li>エアコンの使用を最小限に（特に低速走行時は窓開けも効果的）</li>
+      <li>セルフ式ガソリンスタンドを活用（フルサービスより5〜10円安いことが多い）</li>
+      <li>早朝・夜間の給油は避ける（ガソリンは気温が低いほど膨張が少なく若干有利）</li>
+      <li>アイドリングストップ機能を有効活用する</li>
+      <li>クレジットカードのポイントでガソリン代を節約</li>
+      <li>カーシェアやレンタカーを活用して車の使用頻度を下げる</li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <div class="links">
+    <a href="https://appadaycreator.github.io/bike-cost-advisor/">バイク費用アドバイザー</a>
+    <a href="https://appadaycreator.github.io/car-purchase-advisor/">車購入アドバイザー</a>
+    <a href="https://appadaycreator.github.io/car-lease-advisor/">カーリースアドバイザー</a>
+    <a href="https://appadaycreator.github.io/household-budget-analyzer/">家計簿分析</a>
+    <a href="https://appadaycreator.github.io/subscription-calculator/">サブスク計算</a>
+  </div>
+  <p>© 2025 AppADayCreator</p>
+</footer>
+
+<script>
+  let history = JSON.parse(localStorage.getItem('gasCalcHistory') || '[]');
+
+  function setPrice(p) {
+    document.getElementById('gasolinePrice').value = p;
+    document.querySelectorAll('.gas-price-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+
+  function formatNum(n) {
+    return Math.round(n).toLocaleString('ja-JP');
+  }
+
+  function calculate() {
+    const distance = parseFloat(document.getElementById('distance').value) || 0;
+    const efficiency = parseFloat(document.getElementById('fuelEfficiency').value) || 0;
+    const price = parseFloat(document.getElementById('gasolinePrice').value) || 0;
+    if (!distance || !efficiency || !price) { alert('すべての値を入力してください'); return; }
+    const liters = distance / efficiency;
+    const cost = liters * price;
+    const perKm = cost / distance;
+    document.getElementById('literResult').textContent = liters.toFixed(2);
+    document.getElementById('costResult').textContent = formatNum(cost);
+    document.getElementById('perKmResult').textContent = perKm.toFixed(1);
+    document.getElementById('basicResult').classList.remove('hidden');
+    const entry = { date: new Date().toLocaleString('ja-JP'), distance, efficiency, price, liters: liters.toFixed(2), cost: formatNum(cost) };
+    history.unshift(entry);
+    if (history.length > 10) history.pop();
+    localStorage.setItem('gasCalcHistory', JSON.stringify(history));
+    renderHistory();
+  }
+
+  function simulate() {
+    const monthlyDist = parseFloat(document.getElementById('monthlyDistance').value) || 0;
+    const efficiency = parseFloat(document.getElementById('fuelEfficiency').value) || 0;
+    const price = parseFloat(document.getElementById('gasolinePrice').value) || 0;
+    if (!monthlyDist || !efficiency || !price) { alert('燃費とガソリン単価も入力してください'); return; }
+    const monthlyL = monthlyDist / efficiency;
+    const monthlyCost = monthlyL * price;
+    const yearlyL = monthlyL * 12;
+    const yearlyCost = monthlyCost * 12;
+    document.getElementById('monthlyResult').textContent = formatNum(monthlyCost);
+    document.getElementById('yearlyResult').textContent = formatNum(yearlyCost);
+    document.getElementById('monthlyLiter').textContent = monthlyL.toFixed(1);
+    document.getElementById('yearlyLiter').textContent = yearlyL.toFixed(1);
+    document.getElementById('simResult').classList.remove('hidden');
+    renderMonthlyChart(monthlyCost);
+  }
+
+  function renderMonthlyChart(monthlyCost) {
+    const months = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+    const multipliers = [0.95, 0.90, 1.00, 1.05, 1.10, 1.20, 1.25, 1.20, 1.05, 1.00, 0.95, 1.05];
+    const costs = multipliers.map(m => Math.round(monthlyCost * m));
+    const maxCost = Math.max(...costs);
+    let html = '<h3 style="font-size:0.95rem;color:#a0c4ff;margin-bottom:0.8rem;">月別ガソリン代推定（夏冬補正あり）</h3>';
+    months.forEach((m, i) => {
+      const pct = (costs[i] / maxCost * 100).toFixed(1);
+      html += `<div class="chart-bar-row"><div class="chart-bar-label">${m}</div><div class="chart-bar-bg"><div class="chart-bar-fill" style="width:${pct}%"></div></div><div class="chart-bar-val">¥${costs[i].toLocaleString()}</div></div>`;
+    });
+    document.getElementById('monthlyChart').innerHTML = html;
+  }
+
+  function compareVehicles() {
+    const dist = parseFloat(document.getElementById('compareDistance').value) || 0;
+    const price = parseFloat(document.getElementById('comparePrice').value) || 0;
+    if (!dist || !price) { alert('値を入力してください'); return; }
+    const vehicles = [
+      { name: '軽自動車', efficiency: 22, icon: '🚗' },
+      { name: 'コンパクトカー', efficiency: 17, icon: '🚙' },
+      { name: 'セダン（普通）', efficiency: 14, icon: '🚘' },
+      { name: 'ミニバン', efficiency: 12, icon: '🚐' },
+      { name: 'SUV', efficiency: 11, icon: '🚙' },
+      { name: '大型ワゴン', efficiency: 9, icon: '🚌' },
+      { name: 'ハイブリッド', efficiency: 26, icon: '⚡' },
+      { name: 'EV（電費換算）', efficiency: 35, icon: '🔋' },
+    ];
+    const costs = vehicles.map(v => ({ ...v, cost: Math.round(dist / v.efficiency * price) }));
+    const maxCost = Math.max(...costs.map(c => c.cost));
+    let html = '<h3 style="font-size:0.95rem;color:#a0c4ff;margin-bottom:0.8rem;">年間ガソリン代比較</h3>';
+    costs.sort((a, b) => a.cost - b.cost).forEach(v => {
+      const pct = (v.cost / maxCost * 100).toFixed(1);
+      html += `<div class="chart-bar-row"><div class="chart-bar-label" style="width:110px">${v.icon} ${v.name}</div><div class="chart-bar-bg"><div class="chart-bar-fill" style="width:${pct}%"></div></div><div class="chart-bar-val">¥${v.cost.toLocaleString()}</div></div>`;
+    });
+    document.getElementById('compareResult').innerHTML = html;
+    document.getElementById('compareResult').classList.remove('hidden');
+  }
+
+  function calcSaving() {
+    const current = parseFloat(document.getElementById('currentEfficiency').value) || 0;
+    const target = parseFloat(document.getElementById('targetEfficiency').value) || 0;
+    const dist = parseFloat(document.getElementById('savingDistance').value) || 0;
+    const price = parseFloat(document.getElementById('savingPrice').value) || 0;
+    if (!current || !target || !dist || !price) { alert('すべての値を入力してください'); return; }
+    if (target <= current) { alert('目標燃費は現在の燃費より高く設定してください'); return; }
+    const currentCost = (dist / current) * price;
+    const targetCost = (dist / target) * price;
+    const monthlySaving = currentCost - targetCost;
+    document.getElementById('monthlySaving').textContent = formatNum(monthlySaving);
+    document.getElementById('yearlySaving').textContent = formatNum(monthlySaving * 12);
+    document.getElementById('decadeSaving').textContent = formatNum(monthlySaving * 120);
+    document.getElementById('savingResult').classList.remove('hidden');
+  }
+
+  function renderHistory() {
+    if (!history.length) {
+      document.getElementById('historyContainer').innerHTML = '<p style="color:#888;font-size:0.9rem;">計算を実行すると履歴がここに表示されます</p>';
+      return;
+    }
+    let html = '<table class="history-table"><thead><tr><th>日時</th><th>距離</th><th>燃費</th><th>単価</th><th>費用</th></tr></thead><tbody>';
+    history.forEach(h => {
+      html += `<tr><td>${h.date}</td><td>${h.distance}km</td><td>${h.efficiency}km/L</td><td>¥${h.price}</td><td>¥${h.cost}</td></tr>`;
+    });
+    html += '</tbody></table>';
+    document.getElementById('historyContainer').innerHTML = html;
+  }
+
+  function clearHistory() {
+    history = [];
+    localStorage.removeItem('gasCalcHistory');
+    renderHistory();
+  }
+
+  renderHistory();
+</script>
+</body>
+</html>
