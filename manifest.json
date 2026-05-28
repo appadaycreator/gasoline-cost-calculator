@@ -3,7 +3,7 @@
   "short_name": "ガソリン計算",
   "start_url": "/gasoline-cost-calculator/",
   "display": "standalone",
-  "background_color": "#1a1a2e",
+  "background_color": "#ffffff",
   "theme_color": "#00b4d8",
   "scope": "/gasoline-cost-calculator/"
 }
